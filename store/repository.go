@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"time"
 
@@ -13,7 +14,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func New(ctx context.Context, cfg *config.Config) (*sqlx.DB,func(),error) {
+func New(ctx context.Context, cfg *config.Config) (*sqlx.DB, func(), error) {
 	// Using sql.Connect(), it does ping inside.
 	db, err := sql.Open("mysql",
 		fmt.Sprintf(
@@ -71,3 +72,14 @@ var (
 type Repository struct {
 	Clocker clock.Clocker
 }
+
+const (
+	// ErrCodeMySQLDuplicateEntry is MySQL error code for duplicate entry.
+	// https://dev.mysql.com/doc/mysql-error-codes/8.0/en/server-error-reference.html
+	// Error number: 1062; Symbol: ER_DUP_ENTRY; SQLSTATE: 23000
+	ErrCodeMySQLDuplicateEntry = 1062
+)
+
+var (
+	ErrAlreadyEntry = errors.New("duplicate entry")
+)
