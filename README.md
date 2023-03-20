@@ -22,4 +22,4 @@
 |<ul><li>[x] ~3/17 | CHAPTER 17 |　エンドポイントを追加する
 |<ul><li>[x] ~3/17 | CHAPTER 18 |　RDBMSを使ったデータの永続化処理の実装
 |<ul><li>[x] ~3/18 | CHAPTER 19 |　責務別にHTTPハンドラーの実装を分割する
-|<ul><li>[ ] ~3/   | CHAPTER 20 |　RedisとJWTを用いた認証・認可機能の実装
+|<ul><li>[x] ~3/20 | CHAPTER 20 |　RedisとJWTを用いた認証・認可機能の実装

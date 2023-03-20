@@ -31,4 +31,3 @@ func (r *RegisterUser) RegisterUser(ctx context.Context, name, password, role st
 	}
 	return u, nil
 }
-
