@@ -6,10 +6,10 @@ import (
 	"github.com/Luftalian/shokai_golang_webapp/entity"
 )
 
-func (r *Repository) ListTasks(ctx context.Context, db Queryer) (entity.Tasks, error) {
+func (r *Repository) ListTasks(ctx context.Context, db Queryer, id entity.UserID) (entity.Tasks, error) {
 	tasks := entity.Tasks{}
-	sql := `SELECT id, title, status, created, modified FROM tasks;`
-	if err := db.SelectContext(ctx, &tasks, sql); err != nil {
+	sql := `SELECT id, user_id, title, status, created, modified FROM tasks WHERE user_id = ?;`
+	if err := db.SelectContext(ctx, &tasks, sql, id); err != nil {
 		return nil, err
 	}
 	return tasks, nil
@@ -18,8 +18,8 @@ func (r *Repository) ListTasks(ctx context.Context, db Queryer) (entity.Tasks, e
 func (r *Repository) AddTask(ctx context.Context, db Execer, t *entity.Task) error {
 	t.Created = r.Clocker.Now()
 	t.Modified = r.Clocker.Now()
-	sql := `INSERT INTO tasks (title, status, created, modified) VALUES (?, ?, ?, ?)`
-	result, err := db.ExecContext(ctx, sql, t.Title, t.Status, t.Created, t.Modified)
+	sql := `INSERT INTO tasks (user_id, title, status, created, modified) VALUES (?, ?, ?, ?, ?)`
+	result, err := db.ExecContext(ctx, sql, t.UserID, t.Title, t.Status, t.Created, t.Modified)
 	if err != nil {
 		return err
 	}
